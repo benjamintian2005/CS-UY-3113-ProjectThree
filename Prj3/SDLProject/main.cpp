@@ -395,44 +395,21 @@ void process_input()
 
     const Uint8 *key_state = SDL_GetKeyboardState(NULL);
 
-    // Handle directional thrusters
-//    if (key_state[SDL_SCANCODE_LEFT])
-//    {
-//        // Apply leftward acceleration
-//        g_state.player->set_acceleration(glm::vec3(
-//            -1.0f,
-//            g_state.player->get_acceleration().y,
-//            0.0f
-//        ));
-//        g_state.player->face_left();
-//    }
-//    if (key_state[SDL_SCANCODE_RIGHT])
-//    {
-//        // Apply rightward acceleration
-//        g_state.player->set_acceleration(glm::vec3(
-//            1.0f,
-//            g_state.player->get_acceleration().y,
-//            0.0f
-//        ));
-//        g_state.player->face_right();
-//    }
+
     
-    // Handle up/down thrusters (only if not already handled by key events)
-    if (key_state[SDL_SCANCODE_UP] && !key_state[SDL_SCANCODE_SPACE])
+    if (key_state[SDL_SCANCODE_UP])
     {
-        // Main thruster - counteracts gravity
         g_state.player->set_acceleration(glm::vec3(
             g_state.player->get_acceleration().x,
-            1.2f, // Upward acceleration stronger than gravity
+            1.2f,
             0.0f
         ));
     }
     else if (key_state[SDL_SCANCODE_DOWN])
     {
-        // Downward thruster - increases descent
         g_state.player->set_acceleration(glm::vec3(
             g_state.player->get_acceleration().x,
-            -1.5f, // Stronger downward acceleration
+            -1.5f, 
             0.0f
         ));
     }
