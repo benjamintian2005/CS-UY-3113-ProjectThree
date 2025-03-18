@@ -1,3 +1,13 @@
+/**
+* Author: Benjamin Tian
+* Assignment: Lunar Lander
+* Date due: 2025-3-15, 11:59pm
+* I pledge that I have completed this assignment without
+* collaborating with anyone else, in conformance with the
+* NYU School of Engineering Policies and Procedures on
+* Academic Misconduct.
+**/
+
 #ifndef ENTITY_H
 #define ENTITY_H
 
@@ -153,6 +163,8 @@ public:
     void const set_width(float new_width) {m_width = new_width; }
     void const set_height(float new_height) {m_height = new_height; }
     void const set_fuel(int new_fuel) {fuel = new_fuel; }
+    void const set_active(bool new_active) {m_is_active = new_active; }
+
 
     // Setter for m_walking
     void set_walking(int walking[4][4])

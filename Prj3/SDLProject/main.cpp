@@ -1,3 +1,12 @@
+/**
+* Author: Benjamin Tian
+* Assignment: Lunar Lander
+* Date due: 2025-3-15, 11:59pm
+* I pledge that I have completed this assignment without
+* collaborating with anyone else, in conformance with the
+* NYU School of Engineering Policies and Procedures on
+* Academic Misconduct.
+**/
 #define GL_SILENCE_DEPRECATION
 #define STB_IMAGE_IMPLEMENTATION
 #define LOG(argument) std::cout << argument << '\n'
@@ -322,7 +331,7 @@ void initialise()
 void process_input()
 {
     // Reset thruster acceleration to gravity but keep velocity
-    g_state.player->set_acceleration(glm::vec3(0.0f, -0.8f, 0.0f)); // Reset to lunar gravity
+    g_state.player->set_acceleration(glm::vec3(0.0f, -0.3f, 0.0f)); // Reset to lunar gravity
     
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -342,27 +351,35 @@ void process_input()
                         g_game_is_running = false;
                         break;
                     case SDLK_UP:
-                        // Main thruster - counteracts gravity
-                        g_state.player->set_acceleration(glm::vec3(
-                            g_state.player->get_acceleration().x,
-                            1.2f, // Upward acceleration stronger than gravity
-                            0.0f
-                        ));
-                        f = g_state.player->get_fuel();
-                        g_state.player->set_fuel(f-1);
-                        Mix_PlayChannel(NEXT_CHNL, g_jump_sfx, 0);
-                        break;
+//                        // Main thruster - counteracts gravity
+//                        f = g_state.player->get_fuel();
+//                        if(f-1>=0)
+//                        {
+//                            g_state.player->set_fuel(f-1);
+//                            g_state.player->set_acceleration(glm::vec3(
+//                                g_state.player->get_acceleration().x,
+//                                3.5f, // Upward acceleration stronger than gravity
+//                                0.0f
+//                            ));
+//
+//                        }
+//                        Mix_PlayChannel(NEXT_CHNL, g_jump_sfx, 0);
+//                        break;
                     case SDLK_LEFT:
                         
                         //std::cout << "Preshed Left"<< std::endl;
-                        f = g_state.player->get_fuel();
-                        g_state.player->set_fuel(f-1);
-                        g_state.player->set_acceleration(glm::vec3(
-                            -2.5f,
-                            g_state.player->get_acceleration().y,
-                            0.0f
-                        ));
-                        g_state.player->face_left();
+//                        f = g_state.player->get_fuel();
+//                        if(f-1>=0)
+//                        {
+//                            g_state.player->set_fuel(f-1);
+//                            g_state.player->set_acceleration(glm::vec3(
+//                                -2.5f,
+//                                g_state.player->get_acceleration().y,
+//                                0.0f
+//                            ));
+//                        }
+//                        g_state.player->face_left();
+
                         break;
                     
                     case SDLK_h:
@@ -370,15 +387,20 @@ void process_input()
                         Mix_HaltMusic();
                         break;
                     case SDLK_RIGHT:
-                        f = g_state.player->get_fuel();
-                        g_state.player->set_fuel(f-1);
-                        //std::cout << "Preshed Right"<< std::endl;
-                        g_state.player->set_acceleration(glm::vec3(
-                            2.5f,
-                            g_state.player->get_acceleration().y,
-                            0.0f
-                        ));
-                        g_state.player->face_right();
+//                        f = g_state.player->get_fuel();
+//                        if(f-1>=0)
+//                        {
+//                            g_state.player->set_fuel(f-1);
+//                            g_state.player->set_acceleration(glm::vec3(
+//                                2.5f,
+//                                g_state.player->get_acceleration().y,
+//                                0.0f
+//                            ));
+//                        }
+//                        //std::cout << "Preshed Right"<< std::endl;
+//                        g_state.player->face_right();
+
+                        
                         break;
                     case SDLK_p:
                         Mix_PlayMusic(g_music, -1);
@@ -395,23 +417,57 @@ void process_input()
 
     const Uint8 *key_state = SDL_GetKeyboardState(NULL);
 
-
-    
     if (key_state[SDL_SCANCODE_UP])
     {
-        g_state.player->set_acceleration(glm::vec3(
-            g_state.player->get_acceleration().x,
-            1.2f,
-            0.0f
-        ));
+        int f = g_state.player->get_fuel();
+        if(f-1>=0)
+        {
+            g_state.player->set_fuel(f-1);
+            g_state.player->set_acceleration(glm::vec3(
+                g_state.player->get_acceleration().x,
+                1.2f, // Upward acceleration stronger than gravity
+                0.0f
+            ));
+
+        }
+        Mix_PlayChannel(NEXT_CHNL, g_jump_sfx, 0);
     }
     else if (key_state[SDL_SCANCODE_DOWN])
     {
         g_state.player->set_acceleration(glm::vec3(
             g_state.player->get_acceleration().x,
-            -1.5f, 
+            -1.5f,
             0.0f
         ));
+    }
+    if( key_state[SDL_SCANCODE_LEFT])
+    {
+        int f = g_state.player->get_fuel();
+        if(f-1>=0)
+        {
+            g_state.player->set_fuel(f-1);
+            g_state.player->set_acceleration(glm::vec3(
+                -2.5f,
+                g_state.player->get_acceleration().y,
+                0.0f
+            ));
+        }
+        g_state.player->face_left();
+    }
+    else if (key_state[SDL_SCANCODE_RIGHT])
+    {
+        int f = g_state.player->get_fuel();
+        if(f-1>=0)
+        {
+            g_state.player->set_fuel(f-1);
+            g_state.player->set_acceleration(glm::vec3(
+                2.5f,
+                g_state.player->get_acceleration().y,
+                0.0f
+            ));
+        }
+        g_state.player->face_right();
+    
     }
 }
 
@@ -463,10 +519,14 @@ void render()
     if(g_state.player->get_won())
     {
         draw_text(&g_program, font_texture_id ,"mission success", 0.7f, 0.4f, glm::vec3(-7.5f, 2.0f, 0.0f));
+        g_state.player->set_active(false);
     }
     if(g_state.player->get_lost())
     {
         draw_text(&g_program, font_texture_id ,"mission failed", 0.7f, 0.4f, glm::vec3(-6.0f, 2.0f, 0.0f));
+        g_state.player->set_active(false);
+
+        
     }
     int fuel = g_state.player->get_fuel();
     std::string fuel_messge = "fuel: " + std::to_string(fuel);

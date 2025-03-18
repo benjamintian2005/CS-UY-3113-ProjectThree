@@ -1,3 +1,12 @@
+/**
+* Author: Benjamin Tian
+* Assignment: Lunar Lander
+* Date due: 2025-3-15, 11:59pm
+* I pledge that I have completed this assignment without
+* collaborating with anyone else, in conformance with the
+* NYU School of Engineering Policies and Procedures on
+* Academic Misconduct.
+**/
 #define GL_SILENCE_DEPRECATION
 #define STB_IMAGE_IMPLEMENTATION
 
@@ -64,7 +73,7 @@ Entity::Entity()
     m_animation_rows(0), m_animation_indices(nullptr), m_animation_time(0.0f),
     m_texture_id(0), m_velocity(0.0f), m_acceleration(0.0f), m_width(0.0f), m_height(0.0f), m_font_id(0)
 {
-    fuel = 200;
+    fuel = 2000000;
 
     // Initialize m_walking with zeros or any default value
     for (int i = 0; i < SECONDS_PER_FRAME; ++i)
@@ -82,7 +91,7 @@ Entity::Entity(GLuint texture_id, float speed, glm::vec3 acceleration, float jum
     m_animation_time(animation_time), m_texture_id(texture_id), m_velocity(0.0f),
     m_width(width), m_height(height), m_entity_type(EntityType), m_font_id(font_id), fuel(200)
 {
-    fuel = 200;
+    fuel = 2000;
     m_has_won = false;
     m_has_lost = false;
     face_right();
@@ -99,7 +108,7 @@ Entity::Entity(GLuint texture_id, float speed,  float width, float height, Entit
 {
     m_has_won = false;
     m_has_lost = false;
-    fuel = 200;
+    fuel = 20000000;
 
     // Initialize m_walking with zeros or any default value
     for (int i = 0; i < SECONDS_PER_FRAME; ++i)
